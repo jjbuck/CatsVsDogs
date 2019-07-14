@@ -1,7 +1,9 @@
 from flask import Flask, jsonify, json, Response, request
 from flask_cors import CORS
 
-from cats_vs_dogs.predictor import Predictor
+import sys
+sys.path.append("..") # Adds higher directory to python modules path.
+
 
 app = Flask(__name__)
 CORS(app)
