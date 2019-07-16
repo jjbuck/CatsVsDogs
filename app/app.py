@@ -22,11 +22,11 @@ def predict():
     if request.form:
         logger.info('Received form data.')
         logger.info(f'Data type: {type(request.form)}')
-        url = request.get('url')
+        url = request.form.get('url')
     elif request.files:
         logger.info('Received file data.')
         logger.info(f'Data type: {type(request.files)}')
-        file = request.get('file', None)
+        file = request.files.get('file', None)
     else:
         logger.info('Received unknown data type.')
 
