@@ -10,6 +10,11 @@ app = Flask(__name__)
 CORS(app)
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+handler = logging.StreamHandler()
+handler.setLevel(logging.INFO)
+logger.addHandler(handler)
+
 
 # The service basepath has a short response just to ensure that healthchecks
 # sent to the service root will receive a healthy response.
@@ -23,10 +28,13 @@ def predict():
         logger.info('Received form data.')
         logger.info(f'Data type: {type(request.form)}')
         url = request.form.get('url')
+        logger.info(f'Data: {url}')
     elif request.files:
         logger.info('Received file data.')
         logger.info(f'Data type: {type(request.files)}')
+        logger.info(f'Data: {request.form}')
         file = request.files.get('file', None)
+        logger.info(f'Data: {file}')
     else:
         logger.info('Received unknown data type.')
 
