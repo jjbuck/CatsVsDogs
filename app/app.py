@@ -29,6 +29,7 @@ def predict():
         logger.info(f'Data type: {type(request.form)}')
         url = request.form.get('url')
         logger.info(f'Data: {url}')
+        logging.info('foo')
     elif request.files:
         logger.info('Received file data.')
         logger.info(f'Data type: {type(request.files)}')
