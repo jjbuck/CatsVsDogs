@@ -14,9 +14,9 @@ CORS(app)
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-handler = logging.StreamHandler()
-handler.setLevel(logging.INFO)
-logger.addHandler(handler)
+#handler = logging.StreamHandler()
+#handler.setLevel(logging.INFO)
+#logger.addHandler(handler)
 
 
 # The service basepath has a short response just to ensure that healthchecks

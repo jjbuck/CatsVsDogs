@@ -15,31 +15,41 @@ IMG_SIZE = 160 # All images will be resized to 160x160
 
 
 def load_image_from_file_or_url(image_filename_or_url: str) -> np.ndarray:
-    logger.info(f'Received request to load image or filename {image_filename_or_url}.')
+    logger.info(f'Received image url or file {image_filename_or_url}.')
     if is_url(image_filename_or_url):
         logger.info('Loading from uri.')
         image = load_image_from_url(image_filename_or_url)
     else:
         logger.info('Loading from image file.')
-        image = load_local_img_file(image_filename_or_url)
+        image = load_image_from_file(image_filename_or_url)
     image = preprocess_input(image_utils.img_to_array(image), mode='tf')
     return np.expand_dims(image, axis=0)
 
 
 def is_url(string: str) -> bool:
-    return True if string[:4] == 'http' else False
+    return True if (type(string) == str and string[:4] == 'http') else False
 
 
-def load_local_img_file(image_filename: str) -> np.ndarray:
-    logger.info(f'Attempting to open image {image_filename}')
-    image = image_utils.load_img(image_filename, target_size=(IMG_SIZE, IMG_SIZE))
+def load_image_from_file(image_filename: str) -> np.ndarray:
+    try:
+        logger.info(f'Attempting to open image {image_filename}')
+        image = image_utils.load_img(image_filename, target_size=(IMG_SIZE, IMG_SIZE))
+    except Exception as e:
+        logger.error(f'Error loading image from file {image_filename}.')
+        logger.error(e)
+        # TODO: Add Cloudwatch error metric
     return image
 
 
 def load_image_from_url(url: str) -> Image:
     logger.info(f'Fetching url {url}')
-    image = Image.open(urllib.request.urlopen(url))
-    image = resize_pil_image(image, target_size=(IMG_SIZE, IMG_SIZE))
+    try:
+        image = Image.open(urllib.request.urlopen(url))
+        image = resize_pil_image(image, target_size=(IMG_SIZE, IMG_SIZE))
+    except Exception as e:
+        logger.error(f'Error loading image from url {url}.')
+        logger.error(e)
+        # TODO: Add Cloudwatch error metric
     return image
 
 # https://github.com/keras-team/keras-preprocessing/blob/master/keras_preprocessing/image/utils.py
