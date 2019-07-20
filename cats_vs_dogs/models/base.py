@@ -10,7 +10,6 @@ class Model:
 
     def __init__(self,
                  pretrained_model_path: str):
-
         self.network = self.load_model(pretrained_model_path)
         self.name = f'{self.__class__.__name__}_{self.network.name}'
         self.input_shape = self.network.get_layer(index=0).input.shape[1:3]

@@ -1,14 +1,19 @@
 from typing import Callable, Dict, Optional, Tuple
 import numpy as np
+import logging
+import sys
 
 from cats_vs_dogs.models.base import Model
-#from cats_vs_dogs.datasets.emnist_dataset import EmnistDataset
-from cats_vs_dogs.networks.mobile_net_v2 import mobile_net_v2
-from cats_vs_dogs.utils import load_img
+from cats_vs_dogs.utils import load_image_from_file_or_url
 
-CATS_VS_DOGS_PRETRAINED_MODEL = '../weights/cats-vs-dogs-mobilenetv2.hdf5'
+CATS_VS_DOGS_PRETRAINED_MODEL = 'cats_vs_dogs/weights/cats-vs-dogs-mobilenetv2.hdf5'
 LABEL_NAME_MAP = {0: 'Cat', 1: 'Dog'}
 
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+handler = logging.StreamHandler()
+handler.setLevel(logging.INFO)
+logger.addHandler(handler)
 
 class CatsVsDogsModel(Model):
     def __init__(self,
@@ -18,9 +23,10 @@ class CatsVsDogsModel(Model):
 
     def predict(self, image_filename: str) -> str:
 
-        image = load_img(image_filename)
-        predicted_class_id = self.network.predict(image)
-        print(predicted_class_id)
-        predicted_class_name = LABEL_NAME_MAP[np.round(predicted_class_id[0][0])]
+        image = load_image_from_file_or_url(image_filename)
+        prediction = self.network.predict(image)
+        logger.info(f'Prediction: {prediction}')
+        predicted_class_name = LABEL_NAME_MAP[np.round(prediction[0][0])]
+        logger.info(f'Predicted class: {predicted_class_name}')
 
         return predicted_class_name

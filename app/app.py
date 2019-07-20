@@ -1,9 +1,12 @@
 from flask import Flask, jsonify, json, Response, request
 from flask_cors import CORS
 import logging
+import sys, os
+#sys.path.append(
+#    os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
+sys.path.append("..")
 
-import sys
-sys.path.append("..") # Adds higher directory to python modules path.
+from cats_vs_dogs.models import CatsVsDogsModel
 
 
 app = Flask(__name__)
@@ -24,22 +27,28 @@ def hello_world():
 
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
+
+    logger.info(f'Received request {request}')
+    logger.info(request.__dict__)
+    logger.info(f'Form: {request.form}')
+    logger.info(f'Files: {request.files}')
+
     if request.form:
         logger.info('Received form data.')
-        logger.info(f'Data type: {type(request.form)}')
-        url = request.form.get('url')
-        logger.info(f'Data: {url}')
-        logging.info('foo')
+        image_filename = request.form.get('url')
+        logger.info(f'Data: {image_filename}')
     elif request.files:
         logger.info('Received file data.')
-        logger.info(f'Data type: {type(request.files)}')
-        logger.info(f'Data: {request.form}')
-        file = request.files.get('file', None)
-        logger.info(f'Data: {file}')
+        image_filename = request.files.get('file', None)
+        logger.info(f'Data: {image_filename}')
     else:
         logger.info('Received unknown data type.')
+        return jsonify({'message': 'Unknown input type. Prediction will not be returned.'})
 
-    return jsonify({"message" : "Hello from /predict!",
+    model = CatsVsDogsModel()
+    pred = model.predict(image_filename)
+
+    return jsonify({"message" : f'{pred}',
                     "form": f'{request.form}',
                     "file": f'{request.files}',
                     "args": f'{request.args}'})
