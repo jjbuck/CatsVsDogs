@@ -7,6 +7,7 @@ import sys, os
 sys.path.append("..")
 
 from cats_vs_dogs.models import CatsVsDogsModel
+from cats_vs_dogs.clients import cloudwatch_client
 
 
 app = Flask(__name__)
@@ -28,6 +29,8 @@ def hello_world():
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
 
+    cloudwatch_client.put_request_received_metric()
+    
     logger.info(f'Received request {request}')
     logger.info(request.__dict__)
     logger.info(f'Form: {request.form}')
@@ -48,10 +51,7 @@ def predict():
     model = CatsVsDogsModel()
     pred = model.predict(image_filename)
 
-    return jsonify({"message" : f'{pred}',
-                    "form": f'{request.form}',
-                    "file": f'{request.files}',
-                    "args": f'{request.args}'})
+    return jsonify({"message" : f'{pred}'})
 
 
 # Run the service on the local server it has been deployed to,
