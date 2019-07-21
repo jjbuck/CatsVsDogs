@@ -20,7 +20,6 @@ class CloudwatchClient:
             'MetricData' : [
                 {
                     'MetricName': metric_name,
-                    'Timestamp': timestamp,
                     'Value': value,
                     'Unit': unit
                 }
