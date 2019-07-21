@@ -12,7 +12,7 @@ class CloudwatchClient:
 
     def put_request_received_metric(self):
         metric_name = 'RequestReceived'
-        timestamp = dt.datetime.time()
+        #timestamp = dt.datetime.timestamp(dt.datetime.now())
         value = 1
         unit = 'Seconds'
         put_metric_data_request = {
