@@ -30,7 +30,7 @@ def hello_world():
 def predict():
 
     cloudwatch_client.put_request_received_metric()
-    
+
     logger.info(f'Received request {request}')
     logger.info(request.__dict__)
     logger.info(f'Form: {request.form}')
