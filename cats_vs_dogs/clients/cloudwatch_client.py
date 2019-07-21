@@ -11,10 +11,10 @@ class CloudwatchClient:
 
 
     def put_request_received_metric(self):
-        metric_name = 'RequestReceived'
+        metric_name = 'PredictRequestReceived'
         #timestamp = dt.datetime.timestamp(dt.datetime.now())
         value = 1
-        unit = 'Seconds'
+        unit = 'Count'
         put_metric_data_request = {
             'Namespace': NAMESPACE,
             'MetricData' : [
