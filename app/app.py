@@ -32,7 +32,12 @@ def predict():
     logger.info(request.__dict__)
     logger.info(f'Form: {request.form}')
     logger.info(f'Files: {request.files}')
-    logger.info(f'JSON: {request.json}')
+
+    try:
+        logger.info(f'JSON: {request.json}')
+    except Exception as ex:
+        logger.error('No JSON in request.')
+        logger.error(ex)
 
 
     if request.form:
