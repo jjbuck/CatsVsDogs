@@ -18,7 +18,7 @@ class Model:
         self.name = f'{self.__class__.__name__}_{self.network.name}'
         self.input_shape = self.network.get_layer(index=0).input.shape[1:3]
 
-        self.network.summary()
+        logger.info(self.network.summary())
 
     @property
     def image_shape(self):

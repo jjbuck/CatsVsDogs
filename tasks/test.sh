@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-python3 -m pytest cats_vs_dogs/tests --cov-report term --cov=cats_vs_dogs -s
+# Make sure you have activate the venv
+# source venv/bin/activate
+python3 -m pytest ./tests --cov-report term --cov=cats_vs_dogs -s

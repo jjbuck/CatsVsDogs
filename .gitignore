@@ -1,4 +1,8 @@
 .DS_Store
-.coverage
+*.coverage
 .idea*
 venv/*
+*pycache*
+*pip-selfcheck.json
+*.pyc
+*.pytest
