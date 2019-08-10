@@ -32,25 +32,25 @@ def predict():
     logger.info(request.__dict__)
     logger.info(f'Form: {request.form}')
     logger.info(f'Files: {request.files}')
-
-    try:
-        logger.info(f'JSON: {request.json}')
-    except Exception as ex:
-        logger.error('No JSON in request.')
-        logger.error(ex)
-
+    logger.info(f'JSON: {request.json}')
 
     if request.form:
         logger.info('Received form data.')
-        image_filename = request.form.get('url')
+        image_filename = request.form.get('url', None)
         logger.info(f'Data: {image_filename}')
     elif request.files:
         logger.info('Received file data.')
         image_filename = request.files.get('file', None)
         logger.info(f'Data: {image_filename}')
+    elif request.json:
+        logger.info('Received json data.')
+        image_filename = request.json.get('url', None)
     else:
         logger.info('Unknown input type.')
         abort(400, 'Unknown input type. Please check inputs and try again.')
+
+    if not image_filename:
+        abort(400, 'No input data provided. Please check inputs and try again.')
 
     try:
         model = CatsVsDogsModel()
