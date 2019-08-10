@@ -1,9 +1,13 @@
 from builtins import type
+import logging
 
 from typing import Callable, Dict, Optional
 import numpy as np
 from tensorflow.keras.models import Model as KerasModel
 import tensorflow as tf
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 class Model:
@@ -32,6 +36,14 @@ class Model:
 
     @staticmethod
     def load_model(model_artifact_uri):
-        return tf.keras.models.load_model(model_artifact_uri)
+        logger.info(f'Attempting to load model from uri {model_artifact_uri}')
+        try:
+            model = tf.keras.models.load_model(model_artifact_uri)
+            logger.info(f'Successfully loaded model from uri {model_artifact_uri}')
+            return model
+        except Exception as ex:
+            logger.error(f'Unable to load model from {model_artifact_uri}')
+            logger.error(ex)
+            raise ex
 
 

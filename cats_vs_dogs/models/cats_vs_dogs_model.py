@@ -11,14 +11,12 @@ LABEL_NAME_MAP = {0: 'Cat', 1: 'Dog'}
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-handler = logging.StreamHandler()
-handler.setLevel(logging.INFO)
-logger.addHandler(handler)
+
 
 class CatsVsDogsModel(Model):
     def __init__(self,
                  pretrained_model_uri = CATS_VS_DOGS_PRETRAINED_MODEL):
-        """Define the default dataset and network values for this model."""
+        logger.info(f'Initializing {self.__class__.__name__}')
         super().__init__(pretrained_model_path=pretrained_model_uri)
 
     def predict(self, image_filename: str) -> str:

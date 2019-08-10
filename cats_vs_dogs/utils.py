@@ -7,9 +7,9 @@ import logging
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
-handler = logging.StreamHandler()
-handler.setLevel(logging.INFO)
-logger.addHandler(handler)
+#handler = logging.StreamHandler()
+#handler.setLevel(logging.INFO)
+#logger.addHandler(handler)
 
 IMG_SIZE = 160 # All images will be resized to 160x160
 
