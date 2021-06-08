@@ -6,6 +6,6 @@ typing
 tensorflow==2.0.0-beta1
 tensorflow_datasets
 pytest
-Pillow==4.3.0
+Pillow==8.2.0
 pytest-cov
 moto
